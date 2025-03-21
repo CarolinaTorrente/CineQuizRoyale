@@ -25,6 +25,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        // nuevo comentariooooo
 
         // List of Madrid cinemas with latitude & longitude
         val cinemas = listOf(
