@@ -8,4 +8,35 @@
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <!-- Bottom container for displaying cinema names -->
+    <LinearLayout
+        android:id="@+id/cinemaListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <!-- Cinema TextViews -->
+        <TextView
+            android:id="@+id/cinema1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cinema 1" />
+
+        <TextView
+            android:id="@+id/cinema2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cinema 2" />
+
+        <TextView
+            android:id="@+id/cinema3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cinema 3" />
+
+    </LinearLayout>
+
 </RelativeLayout>

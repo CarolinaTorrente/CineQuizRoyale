@@ -107,4 +107,14 @@ dependencies {
     // For location services
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    // Google Maps & Location services
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    // AppCompat (for backward compatibility)
+    implementation("androidx.appcompat:appcompat:1.3.1")
+
+    // ConstraintLayout (for flexible layouts)
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
 }
