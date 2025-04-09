@@ -22,6 +22,12 @@
             android:name=".MapsActivity"
             android:theme="@style/Theme.AppCompat"
             android:exported="true"/>
+
+        <activity android:name=".FriendsActivity">
+            <!-- Optionally add other configurations -->
+        </activity>
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

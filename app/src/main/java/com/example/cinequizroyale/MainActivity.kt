@@ -133,7 +133,12 @@ class MainActivity : ComponentActivity() {
                             onCinemasClick = {
                                 val intent = Intent(this@MainActivity, MapsActivity::class.java)
                                 startActivity(intent)
-                            }
+                            },
+
+                            onFriendsClick = {
+                                val intent = Intent(this@MainActivity, FriendsActivity::class.java)
+                                startActivity(intent)
+                            },
                         )
                     }
                     currentScreen.value == "questions" -> {
@@ -797,6 +802,10 @@ fun AppContent(
                 onCinemasClick = {  // ✅ Now we handle the Cinemas button click
                     val intent = Intent(context, MapsActivity::class.java)
                     context.startActivity(intent)  // ✅ Open Google Maps
+                },
+                onFriendsClick = {
+                    val intent = Intent(context, FriendsActivity::class.java)
+                    context.startActivity(intent)
                 }
 
             )
@@ -870,8 +879,10 @@ fun MainScreen(
     onPrizesClick: () -> Unit,
     onHistoryClick: () -> Unit,
     onProfileClick: () -> Unit,
-    onCinemasClick: () -> Unit
-) {
+    onCinemasClick: () -> Unit,
+    onFriendsClick: () -> Unit
+
+    ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = BackgroundDark
@@ -900,7 +911,7 @@ fun MainScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ExploreNeighborhoodCard()
+            ExploreNeighborhoodCard(onClick = onFriendsClick)
 
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -1002,9 +1013,11 @@ fun UserProfileCard(account: GoogleSignInAccount, userPoints: Int, onClick: () -
 
 
 @Composable
-fun ExploreNeighborhoodCard() {
+fun ExploreNeighborhoodCard(onClick: () -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
