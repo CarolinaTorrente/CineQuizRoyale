@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TitleText">
+        <item name="android:fontFamily">@font/luckiest_guy</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="SubtitleText">
+        <item name="android:fontFamily">@font/caveat</item>
+        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>
+
