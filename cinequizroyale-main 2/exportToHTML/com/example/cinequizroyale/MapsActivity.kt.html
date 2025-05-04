@@ -1,0 +1,563 @@
+<html>
+<head>
+<title>MapsActivity.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #7a7e85;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MapsActivity.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">cinequizroyale</span>
+
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">os</span><span class="s2">.</span><span class="s1">Bundle</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Log</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">View</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">Toast</span>
+<span class="s1">import androidx</span><span class="s2">.</span><span class="s1">appcompat</span><span class="s2">.</span><span class="s1">app</span><span class="s2">.</span><span class="s1">AppCompatActivity</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">cinequizroyale</span><span class="s2">.</span><span class="s1">utils</span><span class="s2">.</span><span class="s1">Cinema</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">cinequizroyale</span><span class="s2">.</span><span class="s1">utils</span><span class="s2">.</span><span class="s1">CinemaDataManager</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">cinequizroyale</span><span class="s2">.</span><span class="s1">utils</span><span class="s2">.</span><span class="s1">CinemaDataParser</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">gms</span><span class="s2">.</span><span class="s1">auth</span><span class="s2">.</span><span class="s1">api</span><span class="s2">.</span><span class="s1">signin</span><span class="s2">.</span><span class="s1">GoogleSignIn</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">gms</span><span class="s2">.</span><span class="s1">maps</span><span class="s2">.</span><span class="s1">CameraUpdateFactory</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">gms</span><span class="s2">.</span><span class="s1">maps</span><span class="s2">.</span><span class="s1">GoogleMap</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">gms</span><span class="s2">.</span><span class="s1">maps</span><span class="s2">.</span><span class="s1">OnMapReadyCallback</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">gms</span><span class="s2">.</span><span class="s1">maps</span><span class="s2">.</span><span class="s1">SupportMapFragment</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">gms</span><span class="s2">.</span><span class="s1">maps</span><span class="s2">.</span><span class="s1">model</span><span class="s2">.</span><span class="s1">LatLng</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">gms</span><span class="s2">.</span><span class="s1">maps</span><span class="s2">.</span><span class="s1">model</span><span class="s2">.</span><span class="s1">Marker</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">gms</span><span class="s2">.</span><span class="s1">maps</span><span class="s2">.</span><span class="s1">model</span><span class="s2">.</span><span class="s1">MarkerOptions</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">material</span><span class="s2">.</span><span class="s1">bottomsheet</span><span class="s2">.</span><span class="s1">BottomSheetBehavior</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">material</span><span class="s2">.</span><span class="s1">card</span><span class="s2">.</span><span class="s1">MaterialCardView</span>
+<span class="s1">import kotlinx</span><span class="s2">.</span><span class="s1">coroutines</span><span class="s2">.</span><span class="s1">CoroutineScope</span>
+<span class="s1">import kotlinx</span><span class="s2">.</span><span class="s1">coroutines</span><span class="s2">.</span><span class="s1">Dispatchers</span>
+<span class="s1">import kotlinx</span><span class="s2">.</span><span class="s1">coroutines</span><span class="s2">.</span><span class="s1">launch</span>
+<span class="s1">import kotlinx</span><span class="s2">.</span><span class="s1">coroutines</span><span class="s2">.</span><span class="s1">withContext</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">TextView</span>
+<span class="s1">import androidx</span><span class="s2">.</span><span class="s1">recyclerview</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">LinearLayoutManager</span>
+<span class="s1">import androidx</span><span class="s2">.</span><span class="s1">recyclerview</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">RecyclerView</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">LayoutInflater</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">ViewGroup</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">ImageButton</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">ImageView</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">gms</span><span class="s2">.</span><span class="s1">auth</span><span class="s2">.</span><span class="s1">api</span><span class="s2">.</span><span class="s1">signin</span><span class="s2">.</span><span class="s1">GoogleSignInAccount</span>
+<span class="s1">import java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">BufferedReader</span>
+<span class="s1">import java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">InputStreamReader</span>
+
+<span class="s0">class </span><span class="s1">MapsActivity : AppCompatActivity</span><span class="s2">(), </span><span class="s1">OnMapReadyCallback</span><span class="s2">, </span><span class="s1">GoogleMap</span><span class="s2">.</span><span class="s1">OnMarkerClickListener </span><span class="s2">{</span>
+
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">mMap: GoogleMap</span>
+    <span class="s1">private </span><span class="s0">val </span><span class="s1">tag </span><span class="s2">= </span><span class="s3">&quot;MapsActivity&quot;</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">cinemaDataManager: CinemaDataManager</span>
+    <span class="s1">private </span><span class="s0">val </span><span class="s1">cinemasList </span><span class="s2">= </span><span class="s1">mutableListOf</span><span class="s2">&lt;</span><span class="s1">Cinema</span><span class="s2">&gt;()</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">bottomSheetBehavior: BottomSheetBehavior</span><span class="s2">&lt;</span><span class="s1">MaterialCardView</span><span class="s2">&gt;</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">cinemaInfoCard: MaterialCardView</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">cinemaNameText: TextView</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">cinemaAddressText: TextView</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">cinemaPhoneText: TextView</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">cinemaHoursText: TextView</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">cinemaPricesText: TextView</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">cinemaFacilitiesText: TextView</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">moviesRecyclerView: RecyclerView</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">cinemaWebsiteText: TextView</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">backButton: ImageButton</span>
+
+    <span class="s1">private </span><span class="s0">val </span><span class="s1">markerCinemaMap </span><span class="s2">= </span><span class="s1">mutableMapOf</span><span class="s2">&lt;</span><span class="s1">Marker</span><span class="s2">, </span><span class="s1">Cinema</span><span class="s2">&gt;()</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">savedInstanceState: Bundle?</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">savedInstanceState</span><span class="s2">)</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;MapsActivity onCreate started - Debug Version&quot;</span><span class="s2">)</span>
+
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">setContentView</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">activity_maps</span><span class="s2">)</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;setContentView completed&quot;</span><span class="s2">)</span>
+
+            <span class="s4">// back button</span>
+            <span class="s1">setupBackButton</span><span class="s2">()</span>
+
+        <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error setting content view: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s3">&quot;Error loading map layout: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_LONG</span><span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+            <span class="s0">return</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// Check if user is signed in</span>
+        <span class="s0">val </span><span class="s1">account </span><span class="s2">= </span><span class="s1">GoogleSignIn</span><span class="s2">.</span><span class="s1">getLastSignedInAccount</span><span class="s2">(</span><span class="s0">this</span><span class="s2">)</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">account </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;No signed-in account found&quot;</span><span class="s2">)</span>
+            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s3">&quot;Not signed in. Please sign in first.&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_LONG</span><span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;User is signed in: </span><span class="s0">${</span><span class="s1">account</span><span class="s2">.</span><span class="s1">email</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// Initialize CinemaDataManager</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">cinemaDataManager </span><span class="s2">= </span><span class="s1">CinemaDataManager</span><span class="s2">(</span><span class="s0">this</span><span class="s2">)</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;CinemaDataManager initialized&quot;</span><span class="s2">)</span>
+        <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error initializing CinemaDataManager: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s3">&quot;Error initializing cinema data: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_LONG</span><span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// Check if required views exist in layout</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s4">// Initialize Cinema Info Card and its components</span>
+            <span class="s1">setupCinemaInfoCard</span><span class="s2">()</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Cinema info card setup completed&quot;</span><span class="s2">)</span>
+        <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error setting up cinema info card: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s3">&quot;Error setting up UI components: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_LONG</span><span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// Get the SupportMapFragment</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">val </span><span class="s1">mapFragment </span><span class="s2">= </span><span class="s1">supportFragmentManager</span>
+                <span class="s2">.</span><span class="s1">findFragmentById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">map</span><span class="s2">) </span><span class="s0">as </span><span class="s1">SupportMapFragment</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Map fragment obtained&quot;</span><span class="s2">)</span>
+
+            <span class="s4">// Fetch cinema data and then initialize the map</span>
+            <span class="s1">fetchCinemaData </span><span class="s2">{</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Calling getMapAsync&quot;</span><span class="s2">)</span>
+                <span class="s1">mapFragment</span><span class="s2">.</span><span class="s1">getMapAsync</span><span class="s2">(</span><span class="s0">this</span><span class="s2">)</span>
+            <span class="s2">}</span>
+        <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error getting map fragment: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s3">&quot;Error loading Google Maps: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_LONG</span><span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">setupCinemaInfoCard</span><span class="s2">() {</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Setting up cinema info card&quot;</span><span class="s2">)</span>
+
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s4">// Find views</span>
+            <span class="s1">cinemaInfoCard </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">cinema_info_card</span><span class="s2">)</span>
+            <span class="s1">cinemaNameText </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">cinema_name</span><span class="s2">)</span>
+            <span class="s1">cinemaAddressText </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">cinema_address</span><span class="s2">)</span>
+            <span class="s1">cinemaPhoneText </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">cinema_phone</span><span class="s2">)</span>
+            <span class="s1">cinemaHoursText </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">cinema_hours</span><span class="s2">)</span>
+            <span class="s1">cinemaPricesText </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">cinema_prices</span><span class="s2">)</span>
+            <span class="s1">cinemaFacilitiesText </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">cinema_facilities</span><span class="s2">)</span>
+            <span class="s1">moviesRecyclerView </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">movies_recycler_view</span><span class="s2">)</span>
+            <span class="s1">cinemaWebsiteText </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">cinema_website</span><span class="s2">)</span>
+
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;All views found&quot;</span><span class="s2">)</span>
+
+            <span class="s4">// Set up RecyclerView</span>
+            <span class="s1">moviesRecyclerView</span><span class="s2">.</span><span class="s1">layoutManager </span><span class="s2">= </span><span class="s1">LinearLayoutManager</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">LinearLayoutManager</span><span class="s2">.</span><span class="s1">HORIZONTAL</span><span class="s2">, </span><span class="s0">false</span><span class="s2">)</span>
+
+            <span class="s4">// Initialize bottom sheet behavior</span>
+            <span class="s1">bottomSheetBehavior </span><span class="s2">= </span><span class="s1">BottomSheetBehavior</span><span class="s2">.</span><span class="s1">from</span><span class="s2">(</span><span class="s1">cinemaInfoCard</span><span class="s2">)</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Bottom sheet behavior initialized&quot;</span><span class="s2">)</span>
+
+            <span class="s4">// Initially hide the bottom sheet</span>
+            <span class="s1">bottomSheetBehavior</span><span class="s2">.</span><span class="s1">state </span><span class="s2">= </span><span class="s1">BottomSheetBehavior</span><span class="s2">.</span><span class="s1">STATE_HIDDEN</span>
+
+            <span class="s4">// Add callback for bottom sheet state changes</span>
+            <span class="s1">bottomSheetBehavior</span><span class="s2">.</span><span class="s1">addBottomSheetCallback</span><span class="s2">(</span><span class="s0">object </span><span class="s1">: BottomSheetBehavior</span><span class="s2">.</span><span class="s1">BottomSheetCallback</span><span class="s2">() {</span>
+                <span class="s1">override </span><span class="s0">fun </span><span class="s1">onStateChanged</span><span class="s2">(</span><span class="s1">bottomSheet: View</span><span class="s2">, </span><span class="s1">newState: Int</span><span class="s2">) {</span>
+                    <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Bottom sheet state changed to: </span><span class="s0">$</span><span class="s1">newState</span><span class="s3">&quot;</span><span class="s2">)</span>
+                <span class="s2">}</span>
+
+                <span class="s1">override </span><span class="s0">fun </span><span class="s1">onSlide</span><span class="s2">(</span><span class="s1">bottomSheet: View</span><span class="s2">, </span><span class="s1">slideOffset: Float</span><span class="s2">) {</span>
+                    <span class="s4">// Optional: Do something during sliding</span>
+                <span class="s2">}</span>
+            <span class="s2">})</span>
+        <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error in setupCinemaInfoCard: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s0">throw </span><span class="s1">e  </span><span class="s4">// Rethrow to handle in calling method</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">fetchCinemaData</span><span class="s2">(</span><span class="s1">callback: </span><span class="s2">() -&gt; </span><span class="s1">Unit</span><span class="s2">) {</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Fetching cinema data&quot;</span><span class="s2">)</span>
+        <span class="s0">val </span><span class="s1">account </span><span class="s2">= </span><span class="s1">GoogleSignIn</span><span class="s2">.</span><span class="s1">getLastSignedInAccount</span><span class="s2">(</span><span class="s0">this</span><span class="s2">)</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">account </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;No signed-in account found, will use hardcoded data&quot;</span><span class="s2">)</span>
+            <span class="s1">cinemasList</span><span class="s2">.</span><span class="s1">clear</span><span class="s2">()</span>
+
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s0">val </span><span class="s1">hardcodedCinemas </span><span class="s2">= </span><span class="s1">cinemaDataManager</span><span class="s2">.</span><span class="s1">getHardcodedCinemas</span><span class="s2">()</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Got </span><span class="s0">${</span><span class="s1">hardcodedCinemas</span><span class="s2">.</span><span class="s1">size</span><span class="s0">} </span><span class="s3">hardcoded cinemas&quot;</span><span class="s2">)</span>
+                <span class="s1">cinemasList</span><span class="s2">.</span><span class="s1">addAll</span><span class="s2">(</span><span class="s1">hardcodedCinemas</span><span class="s2">)</span>
+            <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error getting hardcoded cinemas: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s2">}</span>
+
+            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s3">&quot;Using local cinema data (not signed in)&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+            <span class="s1">callback</span><span class="s2">()</span>
+            <span class="s0">return</span>
+        <span class="s2">}</span>
+
+        <span class="s1">CoroutineScope</span><span class="s2">(</span><span class="s1">Dispatchers</span><span class="s2">.</span><span class="s1">Main</span><span class="s2">).</span><span class="s1">launch </span><span class="s2">{</span>
+            <span class="s4">// Show loading message</span>
+            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s1">@MapsActivity</span><span class="s2">, </span><span class="s3">&quot;Loading cinema locations...&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s4">// First try to read the cinema data from raw resources</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Attempting to read cinemas from raw resources&quot;</span><span class="s2">)</span>
+                <span class="s0">val </span><span class="s1">cinemasText </span><span class="s2">= </span><span class="s1">readCinemasFromRaw</span><span class="s2">()</span>
+
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">cinemasText</span><span class="s2">.</span><span class="s1">isNotEmpty</span><span class="s2">()) {</span>
+                    <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Successfully read cinema text from raw: </span><span class="s0">${</span><span class="s1">cinemasText</span><span class="s2">.</span><span class="s1">length</span><span class="s0">} </span><span class="s3">chars&quot;</span><span class="s2">)</span>
+
+                    <span class="s4">// Parse the cinema data</span>
+                    <span class="s1">withContext</span><span class="s2">(</span><span class="s1">Dispatchers</span><span class="s2">.</span><span class="s1">IO</span><span class="s2">) {</span>
+                        <span class="s0">try </span><span class="s2">{</span>
+                            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Parsing cinema data&quot;</span><span class="s2">)</span>
+                            <span class="s0">val </span><span class="s1">parsedCinemas </span><span class="s2">= </span><span class="s1">CinemaDataParser</span><span class="s2">.</span><span class="s1">parseCinemaData</span><span class="s2">(</span><span class="s1">cinemasText</span><span class="s2">)</span>
+
+                            <span class="s0">if </span><span class="s2">(</span><span class="s1">parsedCinemas</span><span class="s2">.</span><span class="s1">isNotEmpty</span><span class="s2">()) {</span>
+                                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Successfully parsed </span><span class="s0">${</span><span class="s1">parsedCinemas</span><span class="s2">.</span><span class="s1">size</span><span class="s0">} </span><span class="s3">cinemas from raw resource&quot;</span><span class="s2">)</span>
+
+                                <span class="s4">// Print first few cinemas for debugging</span>
+                                <span class="s1">parsedCinemas</span><span class="s2">.</span><span class="s1">take</span><span class="s2">(</span><span class="s5">3</span><span class="s2">).</span><span class="s1">forEachIndexed </span><span class="s2">{ </span><span class="s1">index</span><span class="s2">, </span><span class="s1">cinema </span><span class="s2">-&gt;</span>
+                                    <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Cinema </span><span class="s0">$</span><span class="s1">index</span><span class="s3">: </span><span class="s0">${</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">name</span><span class="s0">}</span><span class="s3">, Lat: </span><span class="s0">${</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">latitude</span><span class="s0">}</span><span class="s3">, Lng: </span><span class="s0">${</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">longitude</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                                <span class="s2">}</span>
+
+                                <span class="s4">// Upload cinemas to Cloud Storage</span>
+                                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Attempting to upload cinemas to Cloud Storage&quot;</span><span class="s2">)</span>
+                                <span class="s0">val </span><span class="s1">uploadSuccess </span><span class="s2">= </span><span class="s1">CinemaDataParser</span><span class="s2">.</span><span class="s1">uploadCinemaData</span><span class="s2">(</span>
+                                    <span class="s0">this</span><span class="s1">@MapsActivity</span><span class="s2">,</span>
+                                    <span class="s1">account</span><span class="s2">,</span>
+                                    <span class="s1">parsedCinemas</span>
+                                <span class="s2">)</span>
+
+                                <span class="s0">if </span><span class="s2">(</span><span class="s1">uploadSuccess</span><span class="s2">) {</span>
+                                    <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Successfully uploaded cinemas to Cloud Storage&quot;</span><span class="s2">)</span>
+
+                                    <span class="s1">withContext</span><span class="s2">(</span><span class="s1">Dispatchers</span><span class="s2">.</span><span class="s1">Main</span><span class="s2">) {</span>
+                                        <span class="s1">cinemasList</span><span class="s2">.</span><span class="s1">clear</span><span class="s2">()</span>
+                                        <span class="s1">cinemasList</span><span class="s2">.</span><span class="s1">addAll</span><span class="s2">(</span><span class="s1">parsedCinemas</span><span class="s2">)</span>
+                                        <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span>
+                                            <span class="s0">this</span><span class="s1">@MapsActivity</span><span class="s2">,</span>
+                                            <span class="s3">&quot;Loaded </span><span class="s0">${</span><span class="s1">parsedCinemas</span><span class="s2">.</span><span class="s1">size</span><span class="s0">} </span><span class="s3">cinemas from list&quot;</span><span class="s2">,</span>
+                                            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span>
+                                        <span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+                                        <span class="s1">callback</span><span class="s2">()</span>
+                                    <span class="s2">}</span>
+                                <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                                    <span class="s4">// Try to get cinemas from Cloud Storage</span>
+                                    <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Failed to upload cinemas, trying to fetch from Cloud Storage&quot;</span><span class="s2">)</span>
+                                    <span class="s1">fetchCinemasFromCloud</span><span class="s2">(</span><span class="s1">account</span><span class="s2">, </span><span class="s1">callback</span><span class="s2">)</span>
+                                <span class="s2">}</span>
+                            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                                <span class="s1">Log</span><span class="s2">.</span><span class="s1">w</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;No cinemas parsed from raw text data&quot;</span><span class="s2">)</span>
+                                <span class="s1">fetchCinemasFromCloud</span><span class="s2">(</span><span class="s1">account</span><span class="s2">, </span><span class="s1">callback</span><span class="s2">)</span>
+                            <span class="s2">}</span>
+                        <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error parsing cinema data: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+                            <span class="s1">fetchCinemasFromCloud</span><span class="s2">(</span><span class="s1">account</span><span class="s2">, </span><span class="s1">callback</span><span class="s2">)</span>
+                        <span class="s2">}</span>
+                    <span class="s2">}</span>
+                <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                    <span class="s1">Log</span><span class="s2">.</span><span class="s1">w</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;No cinema text found in raw resources&quot;</span><span class="s2">)</span>
+                    <span class="s1">fetchCinemasFromCloud</span><span class="s2">(</span><span class="s1">account</span><span class="s2">, </span><span class="s1">callback</span><span class="s2">)</span>
+                <span class="s2">}</span>
+            <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error in fetchCinemaData: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+                <span class="s1">fetchCinemasFromCloud</span><span class="s2">(</span><span class="s1">account</span><span class="s2">, </span><span class="s1">callback</span><span class="s2">)</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s1">private suspend </span><span class="s0">fun </span><span class="s1">fetchCinemasFromCloud</span><span class="s2">(</span><span class="s1">account: GoogleSignInAccount</span><span class="s2">, </span><span class="s1">callback: </span><span class="s2">() -&gt; </span><span class="s1">Unit</span><span class="s2">) {</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Fetching cinemas from cloud storage&quot;</span><span class="s2">)</span>
+
+        <span class="s1">withContext</span><span class="s2">(</span><span class="s1">Dispatchers</span><span class="s2">.</span><span class="s1">IO</span><span class="s2">) {</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s4">// Explicitly initialize cinema data first</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Initializing cinema data in cloud&quot;</span><span class="s2">)</span>
+                <span class="s0">val </span><span class="s1">initialized </span><span class="s2">= </span><span class="s1">cinemaDataManager</span><span class="s2">.</span><span class="s1">initializeCinemaData</span><span class="s2">(</span><span class="s1">account</span><span class="s2">)</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Cinema data initialization result: </span><span class="s0">$</span><span class="s1">initialized</span><span class="s3">&quot;</span><span class="s2">)</span>
+
+                <span class="s4">// Then get the cinema list</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Getting cinemas from cloud&quot;</span><span class="s2">)</span>
+                <span class="s0">val </span><span class="s1">cinemas </span><span class="s2">= </span><span class="s1">cinemaDataManager</span><span class="s2">.</span><span class="s1">getCinemas</span><span class="s2">(</span><span class="s1">account</span><span class="s2">)</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Retrieved </span><span class="s0">${</span><span class="s1">cinemas</span><span class="s2">.</span><span class="s1">size</span><span class="s0">} </span><span class="s3">cinemas from Cloud Storage&quot;</span><span class="s2">)</span>
+
+                <span class="s1">withContext</span><span class="s2">(</span><span class="s1">Dispatchers</span><span class="s2">.</span><span class="s1">Main</span><span class="s2">) {</span>
+                    <span class="s1">cinemasList</span><span class="s2">.</span><span class="s1">clear</span><span class="s2">()</span>
+                    <span class="s1">cinemasList</span><span class="s2">.</span><span class="s1">addAll</span><span class="s2">(</span><span class="s1">cinemas</span><span class="s2">)</span>
+
+                    <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span>
+                        <span class="s0">this</span><span class="s1">@MapsActivity</span><span class="s2">,</span>
+                        <span class="s3">&quot;Loaded </span><span class="s0">${</span><span class="s1">cinemas</span><span class="s2">.</span><span class="s1">size</span><span class="s0">} </span><span class="s3">cinemas from cloud&quot;</span><span class="s2">,</span>
+                        <span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span>
+                    <span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+
+                    <span class="s1">callback</span><span class="s2">()</span>
+                <span class="s2">}</span>
+            <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error fetching from cloud: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+
+                <span class="s1">withContext</span><span class="s2">(</span><span class="s1">Dispatchers</span><span class="s2">.</span><span class="s1">Main</span><span class="s2">) {</span>
+                    <span class="s4">// Fallback to hardcoded cinemas</span>
+                    <span class="s1">cinemasList</span><span class="s2">.</span><span class="s1">clear</span><span class="s2">()</span>
+                    <span class="s0">try </span><span class="s2">{</span>
+                        <span class="s0">val </span><span class="s1">hardcodedCinemas </span><span class="s2">= </span><span class="s1">cinemaDataManager</span><span class="s2">.</span><span class="s1">getHardcodedCinemas</span><span class="s2">()</span>
+                        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Fallback to </span><span class="s0">${</span><span class="s1">hardcodedCinemas</span><span class="s2">.</span><span class="s1">size</span><span class="s0">} </span><span class="s3">hardcoded cinemas&quot;</span><span class="s2">)</span>
+                        <span class="s1">cinemasList</span><span class="s2">.</span><span class="s1">addAll</span><span class="s2">(</span><span class="s1">hardcodedCinemas</span><span class="s2">)</span>
+                    <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e2: Exception</span><span class="s2">) {</span>
+                        <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error getting hardcoded cinemas: </span><span class="s0">${</span><span class="s1">e2</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e2</span><span class="s2">)</span>
+                    <span class="s2">}</span>
+
+                    <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span>
+                        <span class="s0">this</span><span class="s1">@MapsActivity</span><span class="s2">,</span>
+                        <span class="s3">&quot;Error loading data: Using local cinema data&quot;</span><span class="s2">,</span>
+                        <span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span>
+                    <span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+
+                    <span class="s1">callback</span><span class="s2">()</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">readCinemasFromRaw</span><span class="s2">()</span><span class="s1">: String </span><span class="s2">{</span>
+        <span class="s0">return try </span><span class="s2">{</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Opening raw resource: R.raw.cinemas&quot;</span><span class="s2">)</span>
+            <span class="s4">// Read the cinema list from the raw resource</span>
+            <span class="s0">val </span><span class="s1">resourceId </span><span class="s2">= </span><span class="s1">resources</span><span class="s2">.</span><span class="s1">getIdentifier</span><span class="s2">(</span><span class="s3">&quot;cinemas.txt&quot;</span><span class="s2">, </span><span class="s3">&quot;raw&quot;</span><span class="s2">, </span><span class="s1">packageName</span><span class="s2">)</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">resourceId </span><span class="s2">== </span><span class="s5">0</span><span class="s2">) {</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Resource 'cinemas.txt' not found in raw folder&quot;</span><span class="s2">)</span>
+                <span class="s0">return </span><span class="s3">&quot;&quot;</span>
+            <span class="s2">}</span>
+
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Resource found with ID: </span><span class="s0">$</span><span class="s1">resourceId</span><span class="s3">&quot;</span><span class="s2">)</span>
+
+            <span class="s0">val </span><span class="s1">inputStream </span><span class="s2">= </span><span class="s1">resources</span><span class="s2">.</span><span class="s1">openRawResource</span><span class="s2">(</span><span class="s1">resourceId</span><span class="s2">)</span>
+            <span class="s0">val </span><span class="s1">reader </span><span class="s2">= </span><span class="s1">BufferedReader</span><span class="s2">(</span><span class="s1">InputStreamReader</span><span class="s2">(</span><span class="s1">inputStream</span><span class="s2">))</span>
+            <span class="s0">val </span><span class="s1">text </span><span class="s2">= </span><span class="s1">reader</span><span class="s2">.</span><span class="s1">use </span><span class="s2">{ </span><span class="s1">it</span><span class="s2">.</span><span class="s1">readText</span><span class="s2">() }</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Successfully read cinemas from raw resource: </span><span class="s0">${</span><span class="s1">text</span><span class="s2">.</span><span class="s1">length</span><span class="s0">} </span><span class="s3">bytes&quot;</span><span class="s2">)</span>
+
+            <span class="s4">// Log a snippet of the content</span>
+            <span class="s0">val </span><span class="s1">snippet </span><span class="s2">= </span><span class="s1">text</span><span class="s2">.</span><span class="s1">take</span><span class="s2">(</span><span class="s5">100</span><span class="s2">)</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Content snippet: </span><span class="s0">$</span><span class="s1">snippet</span><span class="s3">...&quot;</span><span class="s2">)</span>
+
+            <span class="s1">text</span>
+        <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error reading cinemas from raw: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s3">&quot;&quot;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onMapReady</span><span class="s2">(</span><span class="s1">googleMap: GoogleMap</span><span class="s2">) {</span>
+        <span class="s1">mMap </span><span class="s2">= </span><span class="s1">googleMap</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Map is ready&quot;</span><span class="s2">)</span>
+
+        <span class="s4">// Set marker click listener</span>
+        <span class="s1">mMap</span><span class="s2">.</span><span class="s1">setOnMarkerClickListener</span><span class="s2">(</span><span class="s0">this</span><span class="s2">)</span>
+
+        <span class="s4">// If no cinemas were loaded, use hardcoded fallback again as safety</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">cinemasList</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Cinema list is empty, using hardcoded data&quot;</span><span class="s2">)</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s0">val </span><span class="s1">hardcodedCinemas </span><span class="s2">= </span><span class="s1">cinemaDataManager</span><span class="s2">.</span><span class="s1">getHardcodedCinemas</span><span class="s2">()</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Got </span><span class="s0">${</span><span class="s1">hardcodedCinemas</span><span class="s2">.</span><span class="s1">size</span><span class="s0">} </span><span class="s3">hardcoded cinemas&quot;</span><span class="s2">)</span>
+                <span class="s1">cinemasList</span><span class="s2">.</span><span class="s1">addAll</span><span class="s2">(</span><span class="s1">hardcodedCinemas</span><span class="s2">)</span>
+            <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error getting hardcoded cinemas: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// Add markers for each cinema</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Adding </span><span class="s0">${</span><span class="s1">cinemasList</span><span class="s2">.</span><span class="s1">size</span><span class="s0">} </span><span class="s3">cinema markers to map&quot;</span><span class="s2">)</span>
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">cinema </span><span class="s0">in </span><span class="s1">cinemasList</span><span class="s2">) {</span>
+            <span class="s0">val </span><span class="s1">location </span><span class="s2">= </span><span class="s1">LatLng</span><span class="s2">(</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">latitude</span><span class="s2">, </span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">longitude</span><span class="s2">)</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Adding marker for </span><span class="s0">${</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">name</span><span class="s0">} </span><span class="s3">at (</span><span class="s0">${</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">latitude</span><span class="s0">}</span><span class="s3">, </span><span class="s0">${</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">longitude</span><span class="s0">}</span><span class="s3">)&quot;</span><span class="s2">)</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s0">val </span><span class="s1">marker </span><span class="s2">= </span><span class="s1">mMap</span><span class="s2">.</span><span class="s1">addMarker</span><span class="s2">(</span><span class="s1">MarkerOptions</span><span class="s2">().</span><span class="s1">position</span><span class="s2">(</span><span class="s1">location</span><span class="s2">).</span><span class="s1">title</span><span class="s2">(</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">name</span><span class="s2">))</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">marker </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+                    <span class="s1">markerCinemaMap</span><span class="s2">[</span><span class="s1">marker</span><span class="s2">] = </span><span class="s1">cinema</span>
+                <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                    <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Failed to create marker for </span><span class="s0">${</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">name</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+                <span class="s2">}</span>
+            <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error adding marker for </span><span class="s0">${</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">name</span><span class="s0">}</span><span class="s3">: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// Move camera to Madrid center</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">val </span><span class="s1">madrid </span><span class="s2">= </span><span class="s1">LatLng</span><span class="s2">(</span><span class="s5">40.4168</span><span class="s2">, -</span><span class="s5">3.7038</span><span class="s2">)</span>
+            <span class="s1">mMap</span><span class="s2">.</span><span class="s1">moveCamera</span><span class="s2">(</span><span class="s1">CameraUpdateFactory</span><span class="s2">.</span><span class="s1">newLatLngZoom</span><span class="s2">(</span><span class="s1">madrid</span><span class="s2">, </span><span class="s5">12f</span><span class="s2">))</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Camera moved to Madrid with zoom 12f&quot;</span><span class="s2">)</span>
+        <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error moving camera: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// Set an empty click listener to hide the cinema info when clicking elsewhere on the map</span>
+        <span class="s1">mMap</span><span class="s2">.</span><span class="s1">setOnMapClickListener </span><span class="s2">{</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Map clicked, hiding bottom sheet&quot;</span><span class="s2">)</span>
+            <span class="s1">bottomSheetBehavior</span><span class="s2">.</span><span class="s1">state </span><span class="s2">= </span><span class="s1">BottomSheetBehavior</span><span class="s2">.</span><span class="s1">STATE_HIDDEN</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onMarkerClick</span><span class="s2">(</span><span class="s1">marker: Marker</span><span class="s2">)</span><span class="s1">: Boolean </span><span class="s2">{</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Marker clicked: </span><span class="s0">${</span><span class="s1">marker</span><span class="s2">.</span><span class="s1">title</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+
+        <span class="s4">// Find the cinema associated with this marker</span>
+        <span class="s0">val </span><span class="s1">cinema </span><span class="s2">= </span><span class="s1">markerCinemaMap</span><span class="s2">[</span><span class="s1">marker</span><span class="s2">]</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">cinema </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Found cinema: </span><span class="s0">${</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">name</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s4">// Populate the cinema info card</span>
+                <span class="s1">displayCinemaInfo</span><span class="s2">(</span><span class="s1">cinema</span><span class="s2">)</span>
+
+                <span class="s4">// Show the bottom sheet</span>
+                <span class="s1">bottomSheetBehavior</span><span class="s2">.</span><span class="s1">state </span><span class="s2">= </span><span class="s1">BottomSheetBehavior</span><span class="s2">.</span><span class="s1">STATE_COLLAPSED</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Bottom sheet displayed&quot;</span><span class="s2">)</span>
+
+                <span class="s4">// Center camera on the selected cinema</span>
+                <span class="s1">mMap</span><span class="s2">.</span><span class="s1">animateCamera</span><span class="s2">(</span><span class="s1">CameraUpdateFactory</span><span class="s2">.</span><span class="s1">newLatLng</span><span class="s2">(</span><span class="s1">marker</span><span class="s2">.</span><span class="s1">position</span><span class="s2">))</span>
+
+                <span class="s4">// Show info window</span>
+                <span class="s1">marker</span><span class="s2">.</span><span class="s1">showInfoWindow</span><span class="s2">()</span>
+
+                <span class="s0">return true </span><span class="s4">// We handled the event</span>
+            <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error displaying cinema info: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s2">}</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Cinema not found for marker: </span><span class="s0">${</span><span class="s1">marker</span><span class="s2">.</span><span class="s1">title</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+        <span class="s2">}</span>
+
+        <span class="s0">return false </span><span class="s4">// Let the default behavior occur</span>
+    <span class="s2">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">displayCinemaInfo</span><span class="s2">(</span><span class="s1">cinema: Cinema</span><span class="s2">) {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s4">// Set the cinema details in the card</span>
+            <span class="s1">cinemaNameText</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">name</span>
+            <span class="s1">cinemaAddressText</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">address</span>
+            <span class="s1">cinemaPhoneText</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">phone</span>
+            <span class="s1">cinemaHoursText</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">openingHours</span>
+            <span class="s1">cinemaPricesText</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">ticketPrices</span>
+            <span class="s1">cinemaFacilitiesText</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">facilities</span>
+            <span class="s1">cinemaWebsiteText</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">website</span>
+
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Cinema details set to UI&quot;</span><span class="s2">)</span>
+
+            <span class="s4">// Set up the movies recycler view</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s1">moviesRecyclerView</span><span class="s2">.</span><span class="s1">adapter </span><span class="s2">= </span><span class="s1">MoviesAdapter</span><span class="s2">(</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">currentMovies</span><span class="s2">)</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Movies adapter set with </span><span class="s0">${</span><span class="s1">cinema</span><span class="s2">.</span><span class="s1">currentMovies</span><span class="s2">.</span><span class="s1">size</span><span class="s0">} </span><span class="s3">movies&quot;</span><span class="s2">)</span>
+            <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error setting movies adapter: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s2">}</span>
+        <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error in displayCinemaInfo: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s4">// back button</span>
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">setupBackButton</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">backButton </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">back_button</span><span class="s2">)</span>
+            <span class="s1">backButton</span><span class="s2">.</span><span class="s1">setOnClickListener </span><span class="s2">{</span>
+                <span class="s4">// Simply finish the activity to go back</span>
+                <span class="s1">finish</span><span class="s2">()</span>
+            <span class="s2">}</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Back button set up successfully&quot;</span><span class="s2">)</span>
+        <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+            <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error setting up back button: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s4">// Inside your MapsActivity.kt file</span>
+
+    <span class="s4">// Add this mapping between movie titles and image resources</span>
+    <span class="s1">private </span><span class="s0">val </span><span class="s1">movieImageMap </span><span class="s2">= </span><span class="s1">mapOf</span><span class="s2">(</span>
+        <span class="s3">&quot;Dune: Part Two&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">dune_part_two</span><span class="s2">,</span>
+        <span class="s3">&quot;Oppenheimer&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">oppenheimer</span><span class="s2">,</span>
+        <span class="s3">&quot;Deadpool &amp; Wolverine&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">deadpool_wolverine</span><span class="s2">,</span>
+        <span class="s3">&quot;Tardes de Soledad&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">tardes_de_soledad</span><span class="s2">,</span>
+        <span class="s3">&quot;Gladiator II&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">gladiator_2</span><span class="s2">,</span>
+        <span class="s3">&quot;Alien: Romulus&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">alien_romulus</span><span class="s2">,</span>
+        <span class="s3">&quot;Mission: Impossible – The Final Reckoning&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">mission_impossible</span><span class="s2">,</span>
+        <span class="s3">&quot;Transformers: One&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">transformers_one</span><span class="s2">,</span>
+        <span class="s3">&quot;The Zone of Interest&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">zone_of_interest</span><span class="s2">,</span>
+        <span class="s3">&quot;Kingdom of the Planet of the Apes&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">planet_of_apes</span><span class="s2">,</span>
+        <span class="s3">&quot;Furiosa&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">furiosa</span><span class="s2">,</span>
+        <span class="s3">&quot;Blade Runner 2049&quot; </span><span class="s1">to R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">blade_runner</span>
+        <span class="s4">// Add more movies as needed</span>
+    <span class="s2">)</span>
+
+    <span class="s4">// MoviesAdapter class</span>
+    <span class="s1">private inner </span><span class="s0">class </span><span class="s1">MoviesAdapter</span><span class="s2">(</span><span class="s1">private </span><span class="s0">val </span><span class="s1">movies: List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt;) </span><span class="s1">:</span>
+        <span class="s1">RecyclerView</span><span class="s2">.</span><span class="s1">Adapter</span><span class="s2">&lt;</span><span class="s1">MoviesAdapter</span><span class="s2">.</span><span class="s1">MovieViewHolder</span><span class="s2">&gt;() {</span>
+
+        <span class="s1">inner </span><span class="s0">class </span><span class="s1">MovieViewHolder</span><span class="s2">(</span><span class="s1">view: View</span><span class="s2">) </span><span class="s1">: RecyclerView</span><span class="s2">.</span><span class="s1">ViewHolder</span><span class="s2">(</span><span class="s1">view</span><span class="s2">) {</span>
+            <span class="s0">val </span><span class="s1">movieTitle: TextView </span><span class="s2">= </span><span class="s1">view</span><span class="s2">.</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">movie_title</span><span class="s2">)</span>
+            <span class="s0">val </span><span class="s1">moviePoster: ImageView </span><span class="s2">= </span><span class="s1">view</span><span class="s2">.</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">movie_poster</span><span class="s2">)</span>
+        <span class="s2">}</span>
+
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreateViewHolder</span><span class="s2">(</span><span class="s1">parent: ViewGroup</span><span class="s2">, </span><span class="s1">viewType: Int</span><span class="s2">)</span><span class="s1">: MovieViewHolder </span><span class="s2">{</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s0">val </span><span class="s1">view </span><span class="s2">= </span><span class="s1">LayoutInflater</span><span class="s2">.</span><span class="s1">from</span><span class="s2">(</span><span class="s1">parent</span><span class="s2">.</span><span class="s1">context</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">inflate</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">item_movie</span><span class="s2">, </span><span class="s1">parent</span><span class="s2">, </span><span class="s0">false</span><span class="s2">)</span>
+                <span class="s0">return </span><span class="s1">MovieViewHolder</span><span class="s2">(</span><span class="s1">view</span><span class="s2">)</span>
+            <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error creating movie view holder: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+                <span class="s4">// Create a fallback view</span>
+                <span class="s0">val </span><span class="s1">textView </span><span class="s2">= </span><span class="s1">TextView</span><span class="s2">(</span><span class="s1">parent</span><span class="s2">.</span><span class="s1">context</span><span class="s2">)</span>
+                <span class="s0">return </span><span class="s1">MovieViewHolder</span><span class="s2">(</span><span class="s1">textView</span><span class="s2">)</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">onBindViewHolder</span><span class="s2">(</span><span class="s1">holder: MovieViewHolder</span><span class="s2">, </span><span class="s1">position: Int</span><span class="s2">) {</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s0">val </span><span class="s1">movieTitle </span><span class="s2">= </span><span class="s1">movies</span><span class="s2">[</span><span class="s1">position</span><span class="s2">]</span>
+                <span class="s1">holder</span><span class="s2">.</span><span class="s1">movieTitle</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">movieTitle</span>
+
+                <span class="s4">// Set the appropriate image based on the movie title</span>
+                <span class="s0">val </span><span class="s1">imageResource </span><span class="s2">= </span><span class="s1">movieImageMap</span><span class="s2">[</span><span class="s1">movieTitle</span><span class="s2">] </span><span class="s1">?: R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">pelicula </span><span class="s4">// Fallback to default image</span>
+                <span class="s1">holder</span><span class="s2">.</span><span class="s1">moviePoster</span><span class="s2">.</span><span class="s1">setImageResource</span><span class="s2">(</span><span class="s1">imageResource</span><span class="s2">)</span>
+            <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                <span class="s1">Log</span><span class="s2">.</span><span class="s1">e</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;Error binding movie view holder: </span><span class="s0">${</span><span class="s1">e</span><span class="s2">.</span><span class="s1">message</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">getItemCount</span><span class="s2">() = </span><span class="s1">movies</span><span class="s2">.</span><span class="s1">size</span>
+
+    <span class="s2">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onResume</span><span class="s2">() {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onResume</span><span class="s2">()</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;MapsActivity onResume&quot;</span><span class="s2">)</span>
+    <span class="s2">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onStart</span><span class="s2">() {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onStart</span><span class="s2">()</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;MapsActivity onStart&quot;</span><span class="s2">)</span>
+    <span class="s2">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onPause</span><span class="s2">() {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onPause</span><span class="s2">()</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;MapsActivity onPause&quot;</span><span class="s2">)</span>
+    <span class="s2">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onStop</span><span class="s2">() {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onStop</span><span class="s2">()</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;MapsActivity onStop&quot;</span><span class="s2">)</span>
+    <span class="s2">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onDestroy</span><span class="s2">() {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onDestroy</span><span class="s2">()</span>
+        <span class="s1">Log</span><span class="s2">.</span><span class="s1">d</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">, </span><span class="s3">&quot;MapsActivity onDestroy&quot;</span><span class="s2">)</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>
