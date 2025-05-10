@@ -13,22 +13,30 @@ In Cloud Storage, we created a bucket named `cinequizroyale-bucket1`. This bucke
 Data is saved in JSON format so we can have variables associated with a unique identifier. For example, user data or cinema data. Here we provide the structure of the bucket:
 
 cinequizroyale-bucket-1/
-├── users/                               # Stores user data and associated details
-│   ├── {userId}.json                    # Basic user info + points
-│   └── friends/                         
-│       └── {userId}.json                # List of friend userIds or friend relationships
-├── redemptions/                         # Stores redemption-related data
-│   └── {userId}/
-│       ├── active.json                  # Currently active redemptions (prizes to redeem)
-│       └── history.json                 # Past redemption history
-├── cinemas/                             # Stores cinema-related information
-│   └── {cinemaId}.json                  # Cinema info (location, name, etc.)
-├── questions/                           # Stores quiz-related data
-│   ├── {questionId}.json                # Individual quiz question
-│   └── metadata.json                    # Metadata like categories, difficulty levels, etc.
-├── friends/                             # Stores friendship data
-│   └── {userId}.json                    # Alternative to users/friends - Global or indexed friendships
+├── users/
+│ ├── {userId}.json
+│ └── friends/
+│ └── {userId}.json
+├── redemptions/
+│ └── {userId}/
+│ ├── active.json
+│ └── history.json
+├── cinemas/
+│ └── {cinemaId}.json
+├── questions/
+│ ├── {questionId}.json
+│ └── metadata.json
+├── friends/
+│ └── {userId}.json
 
+- **Basic user info + points**
+- **List of friend userIds or friend relationships**
+- **Currently active redemptions (prizes to redeem)**
+- **Past redemption history**
+- **Cinema info (location, name, etc.)**
+- **Individual quiz question**
+- **Metadata like categories, difficulty levels, etc.**
+- (Alternative to users/friends) Global or indexed friendships
 
 ## 3. Persistent Design
 
