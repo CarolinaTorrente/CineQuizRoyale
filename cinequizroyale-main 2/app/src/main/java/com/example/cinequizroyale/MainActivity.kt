@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var questionManager: QuestionManager
 
     // Add user points state
-    private var userPoints by mutableStateOf(100)
+    private var userPoints by mutableStateOf(1000)
 
     // Activity result launcher for Google Sign-In
     private val signInLauncher = registerForActivityResult(
