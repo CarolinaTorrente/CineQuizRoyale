@@ -2,5 +2,5 @@
     <string name="app_name">CineQuiz Royale</string>
     <!-- This placeholder will be replaced by the actual value from your google-services.json -->
     <string name="default_web_client_id">YOUR_WEB_CLIENT_ID</string>
-    <string name="my_map_api_key">AIzaSyDyXVIoF4iOtuNNlRzZqHGFbDBLmQNVGAE</string>
+    <string name="my_map_api_key">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
 </resources>
